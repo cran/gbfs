@@ -7,7 +7,8 @@
 get_gbfs(city, feeds = "all", directory)
 }
 \arguments{
-\item{city}{A character string or a url to an active gbfs.json feed.}
+\item{city}{A character string or a url to an active gbfs.json feed. See \code{get_gbfs_cities}
+for a current list of available cities.}
 
 \item{feeds}{A character string specifying which feeds should be saved. Options are
 "all", "static", and "dynamic".}
@@ -25,8 +26,4 @@ feeds as .rds objects in a directory that can be specified by the user. Go to
 }
 \examples{
 \donttest{get_gbfs(city = "boise", directory = tempdir())}
-\donttest{get_gbfs(city = "http://biketownpdx.socialbicycles.com/opendata/gbfs.json", 
-feeds = "dynamic",  directory = tempdir())}
-\donttest{get_gbfs("https://gbfs.bcycle.com/bcycle_greenbikeslc/gbfs.json", 
-directory = tempdir())}
 }

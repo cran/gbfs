@@ -7,7 +7,8 @@
 get_station_status(city, directory, file = "station_status.rds")
 }
 \arguments{
-\item{city}{A character string or a url to an active gbfs.json feed.}
+\item{city}{A character string or a url to an active gbfs.json feed. See \code{get_gbfs_cities}
+for a current list of available cities.}
 
 \item{directory}{The name of an existing folder or folder to be created, where the feed will
 will be saved.}
@@ -26,5 +27,4 @@ appends the current station_status feed to the existing file. Go to
 \examples{
 \donttest{get_station_status(city = 
 "http://biketownpdx.socialbicycles.com/opendata/station_status.json", directory = tempdir())}
-\donttest{get_station_status(city = "kansas city", directory = tempdir())}
 }

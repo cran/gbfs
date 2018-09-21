@@ -1,3 +1,30 @@
+get_gbfs_cities_full <- function() {
+  systems_cols <- readr::cols(
+                              `Country Code` = readr::col_character(),
+                              "Name" = readr::col_character(),
+                              "Location" = readr::col_character(),
+                              `System ID` = readr::col_character(),
+                              `URL` = readr::col_character(),
+                              `Auto-Discovery URL` = readr::col_character()
+                              )
+
+  readr::read_csv("https://raw.githubusercontent.com/NABSA/gbfs/master/systems.csv",
+                  col_types = systems_cols)
+}
+
+#' Get table of all cities releasing GBFS feeds
+#'
+#' @return A \code{data.frame} of all cities issuing GBFS feeds
+#' @source North American Bikeshare Association, General Bikeshare Feed Specification
+#'  \url{https://raw.githubusercontent.com/NABSA/gbfs/master/systems.csv}
+#' @export
+get_gbfs_cities <- function() {
+  `Country Code` <- `URL` <- NULL
+  get_gbfs_cities_full() %>%
+    dplyr::select(`Country Code`, Name, Location, URL)
+}
+
+
 city_to_url <- function(city) {
   
   if (1 == length(agrep(x = as.character(city), pattern = ".json"))) {
@@ -5,18 +32,7 @@ city_to_url <- function(city) {
     url <- city
     url
   } else {
-    #match string with a url
-    systems_cols <- readr::cols(
-      `Country Code` = readr::col_character(),
-      "Name" = readr::col_character(),
-      "Location" = readr::col_character(),
-      `System ID` = readr::col_character(),
-      `URL` = readr::col_character(),
-      `Auto-Discovery URL` = readr::col_character()
-    )
-    
-    cities <- readr::read_csv("https://raw.githubusercontent.com/NABSA/gbfs/master/systems.csv",
-                              col_types = systems_cols) %>%
+    cities <- get_gbfs_cities_full() %>%
       dplyr::select(Name, Location, 'Auto-Discovery URL')
     city_index <- as.numeric(agrep(x = cities$Location, pattern = city), ignore.case = TRUE)
     url <- as.data.frame((cities)[city_index, 'Auto-Discovery URL'])
@@ -100,7 +116,8 @@ get_gbfs_feeds <- function(url) {
 #' feeds as .rds objects in a directory that can be specified by the user. Go to 
 #' `https://github.com/NABSA/gbfs/blob/master/gbfs.md` to see metadata for each dataset.
 #' 
-#' @param city A character string or a url to an active gbfs.json feed.
+#' @param city A character string or a url to an active gbfs.json feed. See \code{get_gbfs_cities}
+#' for a current list of available cities.
 #' @param feeds A character string specifying which feeds should be saved. Options are
 #'   "all", "static", and "dynamic".
 #' @param directory The name of an existing folder or folder to be created, where the feeds
@@ -109,10 +126,6 @@ get_gbfs_feeds <- function(url) {
 #' 
 #' @examples
 #' \donttest{get_gbfs(city = "boise", directory = tempdir())}
-#' \donttest{get_gbfs(city = "http://biketownpdx.socialbicycles.com/opendata/gbfs.json", 
-#' feeds = "dynamic",  directory = tempdir())}
-#' \donttest{get_gbfs("https://gbfs.bcycle.com/bcycle_greenbikeslc/gbfs.json", 
-#' directory = tempdir())}
 #' @export
 
 get_gbfs <- function(city, feeds = "all", directory) {
@@ -215,6 +228,3 @@ if (!dir.exists(directory)) {
   }
 
 }
-
-
-

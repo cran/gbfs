@@ -7,7 +7,8 @@
 get_free_bike_status(city, directory, file = "free_bike_status.rds")
 }
 \arguments{
-\item{city}{A character string or a url to an active gbfs.json feed.}
+\item{city}{A character string or a url to an active gbfs.json feed. See \code{get_gbfs_cities}
+for a current list of available cities.}
 
 \item{directory}{The name of an existing folder or folder to be created, where the feed will
 will be saved.}
@@ -24,7 +25,5 @@ appends the current free_bike_status feed to the existing file. Go to
 `https://github.com/NABSA/gbfs/blob/master/gbfs.md` to see metadata for this dataset.
 }
 \examples{
-\donttest{get_free_bike_status(city = 
-"http://biketownpdx.socialbicycles.com/opendata/free_bike_status.json", directory = tempdir())}
 \donttest{get_free_bike_status(city = "Melbourne", directory = tempdir())}
 }
