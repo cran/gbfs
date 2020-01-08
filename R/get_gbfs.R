@@ -20,207 +20,140 @@
                   col_types = systems_cols)
 }
 
-
-city_to_url <- function(city) {
   
-  if (1 == length(agrep(x = as.character(city), pattern = ".json"))) {
-    #return the city argument as 'url'
-    url <- city
-    url
-  } else {
-    cities <- get_gbfs_cities() %>%
-      dplyr::select(Name, Location, 'Auto-Discovery URL')
-    city_index <- as.numeric(agrep(x = cities$Location, pattern = city), ignore.case = TRUE)
-    url <- as.data.frame((cities)[city_index, 'Auto-Discovery URL'])
-    if (nrow(url) == 1) { 
-      as.character(url)
-    } else {
-        if(nrow(url) > 1) {
-          stop(sprintf("Several cities matched the string supplied. Consider using `get_gbfs_cities()` to find the desired .json URL."))
-        } else {
-          stop(sprintf("No supported cities matched the string supplied. Consider using `get_gbfs_cities()` to find the desired .json URL."))
-    }}}}
-
-get_gbfs_feeds <- function(url) {
-
-  gbfs <- jsonlite::fromJSON(txt = url)
-
-  feeds <- gbfs$data$en$feeds
-
-  stat_info_feed <- feeds %>%
-    dplyr::select(url) %>%
-    dplyr::filter(stringr::str_detect(url, "station_information")) %>%
-    as.character()
-
-  sys_info_feed <- feeds %>%
-    dplyr::select(url) %>%
-    dplyr::filter(stringr::str_detect(url, "system_information")) %>%
-    as.character()
-
-  stat_status_feed <- feeds %>%
-    dplyr::select(url) %>%
-    dplyr::filter(stringr::str_detect(url, "station_status")) %>%
-    as.character()
-
-  if ("free_bike_status" %in% feeds$name) {
-    fbs_feed <- feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "free_bike_status")) %>%
-      as.character()
-  }
-
-  if ("system_hours" %in% feeds$name) {
-    sys_hours_feed <- feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_hours")) %>%
-      as.character()
-  }
-
-  if ("system_calendar" %in% feeds$name) {
-    sys_cal_feed <- feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_calendar")) %>%
-      as.character()
-  }
-
-  if ("system_regions" %in% feeds$name) {
-    sys_reg_feed <- feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_regions")) %>%
-      as.character()
-  }
-
-  if ("system_pricing_plans" %in% feeds$name) {
-    sys_price_feed <- feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_pricing_plans")) %>%
-      as.character()
-  }
-
-  if ("system_alerts" %in% feeds$name) {
-    sys_alerts_feed <- feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_alerts")) %>%
-      as.character()
-  }
-
-}
-
-#' Save gbfs feeds.
+  
+#' Get dataframe of bikeshare feeds released by a city
+#'
+#' @description Of the different types of feeds supplied by the gbfs,
+#' some are required, some are conditionally required, and some are
+#' optional. This function grabs a list of each of the feeds supplied
+#' by a given city, as well as the URLs to access them.
 #' 
-#' \code{get_gbfs} checks for the existence of gbfs feeds for a given city and saves the
-#' feeds as .rds objects in a directory that can be specified by the user. Go to 
-#' `https://github.com/NABSA/gbfs/blob/master/gbfs.md` to see metadata for each dataset.
+#' @param city A character string that can be matched to a city or a url to 
+#' an active gbfs .json feed. See [get_gbfs_cities()] for a 
+#' current list of available cities.
+#'
+#' @return A \code{data.frame} containing the feeds supplied by
+#' a city. . The `feed` column supplies the name of the relevant .json feeds, 
+#' while the entries in the `URL` column supply the feeds themselves.
 #' 
-#' @param city A character string or a url to an active gbfs.json feed. See \code{get_gbfs_cities}
-#' for a current list of available cities.
-#' @param feeds A character string specifying which feeds should be saved. Options are
-#'   "all", "static", and "dynamic".
-#' @param directory The name of an existing folder or folder to be created, where the feeds
-#'   will be saved.
-#' @return A folder containing the specified feeds saved as .rds objects.
+#' @source North American Bikeshare Association, General Bikeshare Feed 
+#' Specification \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
 #' 
-#' @examples
-#' \donttest{get_gbfs(city = "boise", directory = tempdir())}
+#' @examples 
+#' # grab all of the feeds released by portland
+#' \donttest{get_which_gbfs_feeds(city = "portland")}
+#' 
 #' @export
+get_which_gbfs_feeds <- function(city) {
+    
+    url <- city_to_url(city, "gbfs")
+    
+    gbfs <- jsonlite::fromJSON(txt = url)
+    
+    gbfs_feeds <- gbfs[[3]][[1]][[1]]
+    
+    return(gbfs_feeds)
+    
+}
+  
+#' Grab bikeshare data
+#' 
+#' \code{get_gbfs} grabs bikeshare data supplied in the General Bikeshare 
+#' Feed Specification format for a given city. By default, the function returns
+#' the results as a named list of dataframes, but to make accumulation of
+#' datasets over time straightforward, the user can also save the results
+#' as .Rds files that will be automatically row-binded.
+#'  Metadata for each dataset can be found at:
+#' \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' 
+#' @param city A character string that can be matched to a city or a url to an 
+#' active gbfs.json feed. See \code{get_gbfs_cities} for a current list of available cities.
+#' @param feeds Optional. A character string specifying which feeds should be saved. 
+#' Options are \code{"all"}, \code{"static"}, and \code{"dynamic"}.
+#' @param directory Optional. Path to a folder (or folder to be created) where 
+#' the feed will will be saved. 
+#' @param output Optional. The type of output method. By default, output method 
+#' will be inferred from the \code{directory} argument. If \code{output = "save"}, 
+#' the dataframes will be saved as .rds objects in the given folder. If 
+#' \code{output = "return"}, the results will be returned as a named list of 
+#' dataframes. Setting \code{output = "both"} will do both. If both are left
+#' as NULL, the result will be returned and not saved to file.
+#' @return The output of this function depends on the arguments supplied to 
+#' \code{output} and \code{directory}. Either a folder of .rds dataframes saved
+#' at the given path, a returned named list of dataframes, or both.
+#' The function will raise an error if the \code{directory} and \code{output} 
+#' arguments seem to conflict.
+#' @examples
+#' # grab all of the feeds released by portland, oregon's 
+#' # bikeshare program  "biketown", and return them as a 
+#' # named list of dataframes
+#' \donttest{get_gbfs(city = "portland")}
+#' 
+#' # if, rather than returning the data, we wanted to save it:
+#' \donttest{get_gbfs(city = "portland", directory = tempdir())}
+#' 
+#' # note that, usually, we'd supply a character string 
+#' # (like "pdx", maybe,) to the directory argument 
+#' # instead of `tempdir()`. 
+#' 
+#' # if we're having trouble specifying the correct feed,
+#' # we can also supply the actual URL to the feed
+#' \donttest{get_gbfs(city = "http://biketownpdx.socialbicycles.com/opendata/gbfs.json")}
+#'                    
+#' # the examples above grab every feed that portland releases.
+#' # if, instead, we just wanted the dynamic feeds
+#' \donttest{get_gbfs(city = "portland", feeds = "dynamic")}
+#' @export
+get_gbfs <- function(city, feeds = "all", directory = NULL, output = NULL) {
 
-get_gbfs <- function(city, feeds = "all", directory) {
-
-  url <- city_to_url(city = city)
-
-  gbfs <- jsonlite::fromJSON(txt = url)
-
-  gbfs_feeds <- gbfs$data$en$feeds
-
-# get feeds
-  stat_info_feed <- gbfs_feeds %>%
-    dplyr::select(url) %>%
-    dplyr::filter(stringr::str_detect(url, "station_information")) %>%
-    as.character()
-
-  sys_info_feed <- gbfs_feeds %>%
-    dplyr::select(url) %>%
-    dplyr::filter(stringr::str_detect(url, "system_information")) %>%
-    as.character()
-
-  stat_status_feed <- gbfs_feeds %>%
-    dplyr::select(url) %>%
-    dplyr::filter(stringr::str_detect(url, "station_status")) %>%
-    as.character()
-
-  if ("free_bike_status" %in% gbfs_feeds$name) {
-    fbs_feed <- gbfs_feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "free_bike_status")) %>%
-      as.character()
-  }
-
-  if ("system_hours" %in% gbfs_feeds$name) {
-    sys_hours_feed <- gbfs_feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_hours")) %>%
-      as.character()
-  }
-
-  if ("system_calendar" %in% gbfs_feeds$name) {
-    sys_cal_feed <- gbfs_feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_calendar")) %>%
-      as.character()
-  }
-
-  if ("system_regions" %in% gbfs_feeds$name) {
-    sys_reg_feed <- gbfs_feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_regions")) %>%
-      as.character()
-  }
-
-  if ("system_pricing_plans" %in% gbfs_feeds$name) {
-    sys_price_feed <- gbfs_feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_pricing_plans")) %>%
-      as.character()
-  }
-
-  if ("system_alerts" %in% gbfs_feeds$name) {
-    sys_alerts_feed <- gbfs_feeds %>%
-      dplyr::select(url) %>%
-      dplyr::filter(stringr::str_detect(url, "system_alerts")) %>%
-      as.character()
+  # check the "feeds" argument
+  feeds <- process_feeds_argument(feeds)
+  
+  # figure out how to output the resulting object
+  output_types <- determine_output_types(directory, output)
+  
+  # check that, if the user said to save the file, they also
+  # supplied a directory
+  if (output_types[1] & is.null(directory)) {
+    stop(sprintf(c("The argument to output suggests that the resulting",
+                   " data should be saved, but a directory to save the",
+                   " outputs in hasn't been supplied. Please supply",
+                   " an argument to directory or leave the output argument",
+                   " as default.")))    
   }
   
-# create directory
-if (!dir.exists(directory)) {
-  dir.create(directory)
+  # convert the city argument to a top-level gbfs url
+  url <- city_to_url(city, "gbfs")
+  
+  # figure out which feeds are available
+  available_feeds <- get_which_gbfs_feeds(city = url)
+
+  # ...and then figure out which of them to grab
+  relevant_feeds <- available_feeds %>%
+    dplyr::left_join(all_feeds, by = "name") %>%
+    dplyr::filter(type %in% feeds) %>%
+    dplyr::select(name) %>%
+    dplyr::pull()
+  
+  # grab all of the relevant feeds! note that this will save each
+  # of the datasets in the directory folder if directory is
+  # something other than NULL
+  data <- suppressMessages(
+    purrr::map2(paste0(relevant_feeds, ".Rds"),
+                relevant_feeds,
+                get_gbfs_dataset_,
+                city = url,
+                directory = directory,
+                output = NULL)
+    )
+
+  # name each of the elements so that they're more easily accessible
+  names(data) <- relevant_feeds
+  
+  # output the datasets as desired :-)
+  if (output_types[2]) {
+    return(data)
+  }
 }
 
-# call functions
-  if (feeds == "all" | feeds == "static") {
-    get_station_information(stat_info_feed, directory = directory)
-    get_system_information(sys_info_feed, directory = directory)
-    if (exists("sys_hours_feed")) {
-      get_system_hours(sys_hours_feed, directory = directory)
-    }
-    if (exists("sys_cal_feed")) {
-      get_system_calendar(sys_cal_feed, directory = directory)
-    }
-    if (exists("sys_reg_feed")) {
-      get_system_regions(sys_reg_feed, directory = directory)
-    }
-    if (exists("sys_price_feed")) {
-      get_system_pricing_plans(sys_price_feed, directory = directory)
-    }
-    if (exists("sys_alerts_feed")) {
-      get_system_alerts(sys_alerts_feed, directory = directory)
-    }
-  }
-
-  if (feeds == "all" | feeds == "dynamic") {
-    get_station_status(stat_status_feed, directory = directory)
-    if (exists("fbs_feed")) {
-      get_free_bike_status(fbs_feed, directory = directory)
-    }
-  }
-
-}

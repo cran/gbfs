@@ -4,32 +4,67 @@
 \alias{get_system_hours}
 \title{Grab the system_hours feed.}
 \usage{
-get_system_hours(city, directory = NULL, file = "system_hours.rds",
-  output = "save")
+get_system_hours(
+  city,
+  directory = NULL,
+  file = "system_hours.rds",
+  output = NULL
+)
 }
 \arguments{
-\item{city}{A character string or a url to an active gbfs.json feed. See \code{get_gbfs_cities}
-for a current list of available cities.}
+\item{city}{A character string that can be matched to a city or a url to an active 
+gbfs .json feed. See [get_gbfs_cities()]  for a current list of available cities.}
 
-\item{directory}{The name of an existing folder or folder to be created, where the feed will
-will be saved.}
+\item{directory}{Optional. Path to a folder (or folder to be 
+created) where the feed will be saved.}
 
-\item{file}{The name of the file to be saved. Must end in .rds.}
+\item{file}{Optional. The name of the file to be saved (if \code{output} 
+is set to \code{"save"} or \code{"both"}), as a character string. 
+Must end in \code{".rds"}.}
 
-\item{output}{The type of output method. If `output = "save"`, the object will be saved as
-an .rds object at the given path. If `output = "return"`, the output will be returned
-as a dataframe object. Setting `output = "both"` will do both.}
+\item{output}{Optional. The type of output method. If left as default, this
+argument is inferred from the \code{directory} argument. If 
+\code{output = "save"}, the object will be saved as an .rds object at 
+# the given path. If \code{output = "return"}, the output will be returned 
+as a dataframe object. Setting \code{output = "both"} will do both.}
 }
 \value{
-Depends on argument to `output`: Either a saved .rds object generated from the 
-current system_alerts feed, a dataframe object, or both.
+The output of this function depends on argument to \code{output}
+and \code{directory}. Either a saved .rds object generated from the current 
+feed, a dataframe object, or both.
 }
 \description{
-\code{get_system_hours} grabs and tidies the system_hours feed for a given city. Go to 
-`https://github.com/NABSA/gbfs/blob/master/gbfs.md` to see metadata for this dataset.
+\code{get_system_hours} grabs and tidies the system_hours 
+feed for a given city. Metadata for this 
+dataset can be found at: 
+\url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
 }
 \examples{
+# we can grab the system hours feed for portland, 
+# oregon in one of several ways! first, supply the `city` 
+# argument as a URL, and save to file by leaving output 
+# set to it's default. usually, we would supply a character 
+# string (like "pdx", maybe,) for the `directory` argument 
+# instead of `tempdir`.
 \donttest{get_system_hours(city = 
-"http://biketownpdx.socialbicycles.com/opendata/system_hours.json", directory = tempdir())}
-\donttest{get_system_hours(city = "Phoenix", directory = tempdir())}
+"http://biketownpdx.socialbicycles.com/opendata/system_hours.json",  
+                 directory = tempdir())}
+                    
+# or, instead, just supply the name of 
+# the city as a string. 
+\donttest{get_system_hours(city = "portland",
+                 directory = tempdir())}
+                    
+# instead of saving the output as a file, we can 
+# just return the output as a dataframe
+\donttest{get_system_hours(city = "portland",  
+                 output = "return")}
+
+
+}
+\seealso{
+[get_gbfs()] for a wrapper to call each of the \code{get_feed}
+functions, [get_gbfs_cities()] for a dataframe of cities releasing gbfs
+functions, and [get_which_gbfs_feeds()] for a dataframe of which feeds
+are released by a given city.
 }

@@ -4,33 +4,71 @@
 \alias{get_station_status}
 \title{Grab the station_status feed.}
 \usage{
-get_station_status(city, directory = NULL, file = "station_status.rds",
-  output = "save")
+get_station_status(
+  city,
+  directory = NULL,
+  file = "station_status.rds",
+  output = NULL
+)
 }
 \arguments{
-\item{city}{A character string or a url to an active gbfs.json feed. See \code{get_gbfs_cities}
-for a current list of available cities.}
+\item{city}{A character string that can be matched to a city or a url to an active 
+gbfs .json feed. See [get_gbfs_cities()]  for a current list of available cities.}
 
-\item{directory}{The name of an existing folder or folder to be created, where the feed will
-will be saved.}
+\item{directory}{Optional. Path to a folder (or folder to be 
+created) where the feed will be saved.}
 
-\item{file}{The name of an existing file or new file to be saved. Must end in .rds.}
+\item{file}{Optional. The name of the file to be saved (if \code{output} 
+is set to \code{"save"} or \code{"both"}), as a character string. 
+Must end in \code{".rds"}.}
 
-\item{output}{The type of output method. If `output = "save"`, the object will be saved as
-an .rds object at the given path. If `output = "return"`, the output will be returned
-as a dataframe object. Setting `output = "both"` will do both.}
+\item{output}{Optional. The type of output method. If left as default, this
+argument is inferred from the \code{directory} argument. If 
+\code{output = "save"}, the object will be saved as an .rds object at 
+# the given path. If \code{output = "return"}, the output will be returned 
+as a dataframe object. Setting \code{output = "both"} will do both.}
 }
 \value{
-Depends on argument to `output`: Either a saved .rds object generated from the 
-current station_information feed, a dataframe object, or both.
+The output of this function depends on the argument to \code{output}
+and \code{directory}. Either a saved .rds object generated from the current 
+station_information feed, a dataframe object, or both. If a saved feed of
+the same type already exists at the filepath, the feed will be appended to
+rather than overwritten.
 }
 \description{
-If the specified file does not exist, \code{get_station_status} saves the station_status
-feed for a given city as a .rds object. If the specified file does exist, \code{get_station_status}
-appends the current station_status feed to the existing file. Go to 
-`https://github.com/NABSA/gbfs/blob/master/gbfs.md` to see metadata for this dataset.
+Grab a dataframe giving the geographic location and other metadata of
+bikeshare bikes parked at bikeshare stations. Metadata for this dataset
+can be found at: \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
 }
 \examples{
+# we can grab the station status feed for portland, 
+# oregon's bikeshare program in  several ways! the most 
+# straightforward way is just to supply the `city` argument
+# as a string:
+\donttest{get_station_status(city = "portland")}
+
+# the `city` argument can also be supplied as an
+# actual URL to an active .json feed
 \donttest{get_station_status(city = 
-"http://biketownpdx.socialbicycles.com/opendata/station_status.json", directory = tempdir())}
+"http://biketownpdx.socialbicycles.com/opendata/station_status.json",  
+                     directory = tempdir())}
+
+# if you'd like to save the output to file, supply a 
+# `directory` argument. usually, though, we would supply a 
+# character string (like "pdx", maybe,) for the `directory` 
+# argument instead of `tempdir`.
+\donttest{get_station_status(city = "portland",  
+                     directory = tempdir())}
+                     
+# the output argument can control whether the file is
+# saved and/or returned explicitly
+\donttest{get_station_status(city = "portland",  
+                     directory = tempdir(),
+                     output = "both")} 
+}
+\seealso{
+[get_gbfs()] for a wrapper to call each of the \code{get_feed}
+functions, [get_gbfs_cities()] for a dataframe of cities releasing gbfs
+functions, and [get_which_gbfs_feeds()] for a dataframe of which feeds
+are released by a given city.
 }
