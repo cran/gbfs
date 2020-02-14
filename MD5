@@ -1,11 +1,11 @@
-b64ec756326c2c7cd9597e8fcb14e45b *DESCRIPTION
+368cbcb821a01b2031a4fc1969c97002 *DESCRIPTION
 8f8a27cfefe46d06136c8aafca5703eb *NAMESPACE
-1beac060767f4c885cd8ff3c7e9bad40 *NEWS.md
+d4608df9e1dadda1930e5d8d33b68e86 *NEWS.md
 c2ae8f1c1fb10453af07fa4644853475 *R/gbfs_description.R
 a9332a3d41233ea5224e04c8f66a3bf0 *R/get_dynamic_feeds.R
-c8f6e6a439d6d626f68cd8474780398b *R/get_gbfs.R
+2544dc0a6f1847202ec607858a09c8dc *R/get_gbfs.R
 f5d45ac88cddf806b17defecc9a7b374 *R/get_static_feeds.R
-e69c250a9bf6969df40aaf97417961da *R/utils.R
+09efb4dc75d8737543e6cf5345033d1d *R/utils.R
 46db59d2479db576469d5e40d73e6357 *man/gbfs.Rd
 25af96fe32a203056d798b8c61b56f5d *man/get_free_bike_status.Rd
 1daa5870bcca45b97dee3b66c3cd08f6 *man/get_gbfs.Rd
@@ -22,5 +22,5 @@ be4d1f721808723b775152ec6714fbec *man/get_system_regions.Rd
 36f704fae399f72df08da02f7bb27a62 *tests/testthat.R
 ba07c4758825d6b72dc5825c22cbd1ee *tests/testthat/test-dynamic-feeds.R
 6a25d0056f0b0e4a1654c42d13d1cde3 *tests/testthat/test-static-feeds.R
-4a55092e917bcd665c1c238b56e48e8d *tests/testthat/test-utils.R
-58cacf86ac7577632cdea8fc1ecd7981 *tests/testthat/test-wrapper.R
+d963c97cb2076b208c5db1044d2bf609 *tests/testthat/test-utils.R
+1f859eac00be68d4a3926bfeb68a67fc *tests/testthat/test-wrapper.R
