@@ -1,6 +1,6 @@
-6215bda412ecfa47902ca9ead39c45f5 *DESCRIPTION
+c8748125da483b622daff98092ee6f03 *DESCRIPTION
 8f8a27cfefe46d06136c8aafca5703eb *NAMESPACE
-3ac6b563a4246e9962d81c7ce389e48a *NEWS.md
+3a6625409405eb4be11b36fdebad3d1a *NEWS.md
 c2ae8f1c1fb10453af07fa4644853475 *R/gbfs_description.R
 731e885618bfb7804900be04070ff528 *R/get_dynamic_feeds.R
 997156f18b3fcdd389cfdaf0354800ba *R/get_gbfs.R
@@ -21,6 +21,6 @@ c148d5d82ce4f99e70d421b260d713ba *man/get_system_hours.Rd
 96db9d4b4d5241f8c9e55f8964ed9ef4 *man/get_which_gbfs_feeds.Rd
 36f704fae399f72df08da02f7bb27a62 *tests/testthat.R
 d39285f179f81f4e1869bcf654f93c7e *tests/testthat/test-dynamic-feeds.R
-4f039a0457c1fbea8f70967fa9846cc3 *tests/testthat/test-static-feeds.R
+9733d43857adf0224305f8cf28e81ae9 *tests/testthat/test-static-feeds.R
 917906ce71ba12563801f83fe898715f *tests/testthat/test-utils.R
 00b3681f351e4ea1dc5a85691b3e1e1d *tests/testthat/test-wrapper.R
