@@ -12,8 +12,9 @@ get_system_alerts(
 )
 }
 \arguments{
-\item{city}{A character string that can be matched to a city or a url to an active 
-gbfs .json feed. See [get_gbfs_cities()]  for a current list of available cities.}
+\item{city}{A character string that can be matched to a gbfs feed. The recommended
+argument is a system ID supplied in the output of [get_gbfs_cities()], but will
+also attempt to match to the URL of an active .json feed or city name.}
 
 \item{directory}{Optional. Path to a folder (or folder to be 
 created) where the feed will be saved.}
@@ -41,10 +42,9 @@ dataset can be found at: \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
 \examples{
 # grab the system alerts feed for portland, oregon
 \donttest{get_system_alerts(city = 
-"http://biketownpdx.socialbicycles.com/opendata/system_alerts.json",  
-                  directory = tempdir())}
+"https://gbfs.biketownpdx.com/gbfs/en/system_alerts.json",  
+                  output = "return")}
  
-                  
 }
 \seealso{
 [get_gbfs()] for a wrapper to call each of the \code{get_feed}
