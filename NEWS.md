@@ -1,5 +1,10 @@
 # News
 
+### 1.3.8
+
+  - Changed default development branch name from `master` to `main`.
+  - Fixed HTML5 NOTEs on R devel checks.
+
 ### 1.3.7
 
   - Update URLs in examples and unit tests to reflect bikeshare systems
