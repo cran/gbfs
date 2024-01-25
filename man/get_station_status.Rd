@@ -39,7 +39,7 @@ rather than overwritten.
 \description{
 Grab a dataframe giving the geographic location and other metadata of
 bikeshare bikes parked at bikeshare stations. Metadata for this dataset
-can be found at: \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+can be found at: \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 }
 \examples{
 # we can grab the free bike status feed for portland, 
@@ -51,7 +51,7 @@ can be found at: \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
 # the `city` argument can also be supplied as an
 # actual URL to an active .json feed
 \donttest{get_station_status(city = 
-"https://gbfs.biketownpdx.com/gbfs/en/station_status.json")}
+"https://gbfs.lyft.com/gbfs/1.1/pdx/en/station_status.json")}
                      
 }
 \seealso{

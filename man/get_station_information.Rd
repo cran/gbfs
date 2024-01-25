@@ -38,12 +38,12 @@ feed, a dataframe object, or both.
 \code{get_station_information} grabs and tidies the station_information feed for a given city. 
 This dataset contains locations, capacity, and other information about bikeshare stations.
 Metadata for this dataset can be found at: 
-\url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+\url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 }
 \examples{
 # grab the free bike status feed for portland, oreoon's bikeshare program 
 \donttest{get_station_information(city = 
-"https://gbfs.biketownpdx.com/gbfs/en/station_information.json",  
+"https://gbfs.lyft.com/gbfs/1.1/pdx/en/station_information.json",  
                         output = "return")}
 
 }

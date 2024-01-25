@@ -37,7 +37,7 @@ feed, a dataframe object, or both.
 \description{
 \code{get_system_regions} grabs and tidies the system_regions feed for 
 a given city.  Metadata for this dataset can be found at: 
-\url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+\url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 }
 \examples{
 # we can grab the system regions feed for portland, 
@@ -47,7 +47,7 @@ a given city.  Metadata for this dataset can be found at:
 # string (like "pdx", maybe,) for the `directory` argument 
 # instead of `tempdir`.
 \donttest{get_system_regions(city = 
-"https://gbfs.biketownpdx.com/gbfs/en/system_regions.json",  
+"https://gbfs.lyft.com/gbfs/1.1/pdx/en/system_regions.json",  
                    directory = tempdir())}
                     
 # or, instead, just supply the name of 

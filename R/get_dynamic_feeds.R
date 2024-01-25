@@ -2,7 +2,7 @@
 #' 
 #' Grab a dataframe giving the geographic location and other metadata of
 #' bikeshare bikes not parked at bikeshare stations. Metadata for this dataset
-#' can be found at: \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' can be found at: \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params seealso 
 #' 
@@ -15,7 +15,7 @@
 #' @examples
 #' # grab the free bike status feed for portland, oregon's bikeshare program 
 #' \donttest{get_free_bike_status(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/free_bike_status.json",
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/free_bike_status.json",
 #' output = "return")}
 #'                      
 #' @export
@@ -29,7 +29,7 @@ get_free_bike_status <- function(city, directory = NULL, file = "free_bike_statu
 #' 
 #' Grab a dataframe giving the geographic location and other metadata of
 #' bikeshare bikes parked at bikeshare stations. Metadata for this dataset
-#' can be found at: \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' can be found at: \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params seealso 
 #' 
@@ -45,7 +45,7 @@ get_free_bike_status <- function(city, directory = NULL, file = "free_bike_statu
 #' # the `city` argument can also be supplied as an
 #' # actual URL to an active .json feed
 #' \donttest{get_station_status(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/station_status.json")}
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/station_status.json")}
 
 #'                      
 #' @export

@@ -3,7 +3,7 @@
 #' \code{get_station_information} grabs and tidies the station_information feed for a given city. 
 #' This dataset contains locations, capacity, and other information about bikeshare stations.
 #' Metadata for this dataset can be found at: 
-#' \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @param city A character string that can be matched to a gbfs feed. The recommended
 #' argument is a system ID supplied in the output of [get_gbfs_cities()], but will
@@ -31,7 +31,7 @@
 #' @examples
 #' # grab the free bike status feed for portland, oreoon's bikeshare program 
 #' \donttest{get_station_information(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/station_information.json",  
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/station_information.json",  
 #'                         output = "return")}
 #' 
 #' @export
@@ -45,14 +45,14 @@ get_station_information <- function(city, directory = NULL, file = "station_info
 #' 
 #' \code{get_system_alerts} grabs and tidies the system_alerts feed for a given city. 
 #' This feed informs users about changes to normal operation. Metadata for this 
-#' dataset can be found at: \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' dataset can be found at: \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params return seealso 
 #' 
 #' @examples
 #' # grab the system alerts feed for portland, oregon
 #' \donttest{get_system_alerts(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/system_alerts.json",  
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/system_alerts.json",  
 #'                   output = "return")}
 #'  
 #' @export
@@ -67,14 +67,14 @@ get_system_alerts <- function (city, directory = NULL, file = "system_alerts.rds
 #' 
 #' \code{get_system_calendar} grabs and tidies the system_calendar feed 
 #' for a given city. Metadata for this dataset can be found at: 
-#' \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params return seealso 
 #' 
 #' @examples
 #' # grab the system calendar feed for portland, oregon
 #' \donttest{get_system_calendar(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/system_calendar.json",  
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/system_calendar.json",  
 #'                     output = "return")}
 #' 
 #' 
@@ -91,14 +91,14 @@ get_system_calendar <- function (city, directory = NULL, file = "system_calendar
 #' \code{get_system_hours} grabs and tidies the system_hours 
 #' feed for a given city. Metadata for this 
 #' dataset can be found at: 
-#' \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params return seealso 
 #' 
 #' @examples
 #' # grab the system hours feed for portland, oregon
 #' \donttest{get_system_hours(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/system_hours.json",  
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/system_hours.json",  
 #'                  output = "return")}
 #' 
 #' @export
@@ -113,7 +113,7 @@ get_system_hours <- function (city, directory = NULL, file = "system_hours.rds",
 #' 
 #' \code{get_system_information} grabs and tidies the system_information 
 #' feed for a given city. Metadata for this dataset can be found at: 
-#' \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params return seealso 
 #' 
@@ -125,7 +125,7 @@ get_system_hours <- function (city, directory = NULL, file = "system_hours.rds",
 #' # string (like "pdx", maybe,) for the `directory` argument 
 #' # instead of `tempdir`.
 #' \donttest{get_system_information(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/system_information.json",  
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/system_information.json",  
 #'                        directory = tempdir())}
 #'                     
 #' # or, instead, just supply the name of 
@@ -144,7 +144,7 @@ get_system_information <- function(city, directory = NULL, file = "system_inform
 #' 
 #' \code{get_system_pricing_plans} grabs and tidies the system_pricing_plans 
 #' feed for a given city. Metadata for this dataset can be found at: 
-#' \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params return seealso 
 #' 
@@ -160,7 +160,7 @@ get_system_pricing_plans <- function(city, directory = NULL, file = "system_pric
 #' 
 #' \code{get_system_regions} grabs and tidies the system_regions feed for 
 #' a given city.  Metadata for this dataset can be found at: 
-#' \url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+#' \url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 #' 
 #' @inherit get_station_information params return seealso 
 #' 
@@ -172,7 +172,7 @@ get_system_pricing_plans <- function(city, directory = NULL, file = "system_pric
 #' # string (like "pdx", maybe,) for the `directory` argument 
 #' # instead of `tempdir`.
 #' \donttest{get_system_regions(city = 
-#' "https://gbfs.biketownpdx.com/gbfs/en/system_regions.json",  
+#' "https://gbfs.lyft.com/gbfs/1.1/pdx/en/system_regions.json",  
 #'                    directory = tempdir())}
 #'                     
 #' # or, instead, just supply the name of 

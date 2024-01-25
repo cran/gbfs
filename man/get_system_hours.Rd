@@ -38,12 +38,12 @@ feed, a dataframe object, or both.
 \code{get_system_hours} grabs and tidies the system_hours 
 feed for a given city. Metadata for this 
 dataset can be found at: 
-\url{https://github.com/NABSA/gbfs/blob/master/gbfs.md}
+\url{https://github.com/MobilityData/gbfs/blob/master/gbfs.md}
 }
 \examples{
 # grab the system hours feed for portland, oregon
 \donttest{get_system_hours(city = 
-"https://gbfs.biketownpdx.com/gbfs/en/system_hours.json",  
+"https://gbfs.lyft.com/gbfs/1.1/pdx/en/system_hours.json",  
                  output = "return")}
 
 }

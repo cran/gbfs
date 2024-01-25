@@ -4,13 +4,36 @@ context("wrapper")
 # change regularly, so test failures might result from
 # changes in the operation model of biketown rather than
 # failure of the software
-biketown <- get_gbfs("biketown_pdx")
-bike_itau <- get_gbfs("santiago")
 
-bird_url <- "https://mds.bird.co/gbfs/chicago/gbfs.json"
+biketown <- tryCatch(
+  get_gbfs("biketown_pdx"),
+  error = function(e) {e}
+)
 
-if (url_exists(bird_url)) {
-  bird <- get_gbfs(bird_url)
+if (inherits(biketown, "error")) {
+  skip("no internet connection or deprecated bikeshare system")
+}
+
+bike_itau <- tryCatch(
+  get_gbfs("santiago"),
+  error = function(e) {e}
+)
+
+if (inherits(bike_itau, "error")) {
+  skip("no internet connection or deprecated bikeshare system")
+}
+
+chicago_url <- "https://gbfs.divvybikes.com/gbfs/2.3/gbfs.json"
+
+if (url_exists(chicago_url)) {
+  chicago <- tryCatch(
+    get_gbfs(chicago_url),
+    error = function(e) {e}
+  )
+  
+  if (inherits(chicago, "error")) {
+    skip("deprecated bikeshare system")
+  }
 } else {
   skip("no internet connection")
 }
@@ -21,7 +44,7 @@ test_that("main wrapper works", {
   
   expect_equal(class(biketown), "list")
   expect_equal(class(bike_itau), "list")
-  expect_equal(class(bird), "list")
+  expect_equal(class(chicago), "list")
   
 })
 
